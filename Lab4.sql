@@ -50,11 +50,14 @@ where cid not in
 -- Q4
 -- Get	the cids and names of customers	who ordered both product p01 and p07.
 
-select cid
-from orders
-where pid in ('p01', 'p07')
-group by cid
-having count(distinct pid) = 2
+select name, cid
+from customers
+where cid in ( select cid 
+	       from orders
+               where pid in ('p01', 'p07')
+               group by cid
+               having count(distinct pid) = 2)
+
 
 -- Q5
 -- Get the pids	of products ordered by any customers who ever placed an	order through	
