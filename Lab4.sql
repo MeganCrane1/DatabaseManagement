@@ -63,7 +63,7 @@ where cid in ( select cid
 -- Get the pids	of products ordered by any customers who ever placed an	order through	
 -- agent a03.	
 
-select pid, cid
+select distinct pid
 from orders
 where cid in ( select cid
 	       from orders
