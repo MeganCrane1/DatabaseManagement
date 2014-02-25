@@ -42,8 +42,8 @@ where o.cid is NULL
 
 -- 5. Get the names of customers who placed at least one order through an agent in their city, and the agents names
 
-select distinct customers.name,
-	agents.name
+select distinct customers.name as CUSTOMERName,
+	agents.name as AGENTSName
 from customers,
 	orders,
 	agents,
@@ -56,7 +56,7 @@ where customers.cid = orders.cid
 
 -- 6. Get the names of customers and agents in the same city, along with the name of the city, regardless of whether or not the customer has ever placed an order with that agent
 
-select customers.name, agents.name, customers.city, agents.city
+select customers.name as CUSTOMERName, agents.name as AGENTSName, customers.city as CUSTOMERCity, agents.city as AGENTSCity
 from 	customers,
 	agents
 where customers.city = agents.city
@@ -66,19 +66,20 @@ where customers.city = agents.city
 
 -- 7. Get the name and city of customers who live in the city where the least number of products are made
 
-select  c2.name, c2.city
-from    customers c1,
+select  c2.name, 
+	c2.city, 
+	sum(quantity) as sumquantity
+from    products,
+	customers c1,
 	orders,
-	products,
 	customers c2
 where   c1.cid = orders.cid
 	and products.pid = orders.pid
 	and c1.city = products.city
 	and c1.city = c2.city
-	group by  c2.name, c2.city
-	order by count (c2.city) desc
-	limit 2
-
+group by c2.city, c2.name
+order by sumquantity asc
+limit 2
 
 
 	
