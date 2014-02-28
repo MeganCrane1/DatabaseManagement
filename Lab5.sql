@@ -78,7 +78,7 @@ where   c1.cid = orders.cid
 	and c1.city = products.city
 	and c1.city = c2.city
 group by c2.city, c2.name
-order by sumquantity asc
+order by sumquantity desc
 limit 2
 
 
