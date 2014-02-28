@@ -4,8 +4,29 @@
 
 -- 1. Get the name and city of customers who live in a city where the most number of products are made
 
+select  customers.name, customers.city
+from    customers,
+	products,
+	orders
+where   customers.cid = orders.cid
+	and products.pid = orders.pid
+	and products.quantity > (Select Avg(products.quantity)
+				from products)
+limit 1
 
 -- 2. Get the name and city of customers who live in any city where the most number of products are made
+
+select  c2.name, c2.city
+from    customers c1,
+	products,
+	orders,
+	customers c2
+where   c1.cid = orders.cid
+	and products.pid = orders.pid
+	and c2.city = c1.city
+	and products.quantity > (Select Avg(products.quantity)
+				from products)
+limit 2
 
 
 -- 3. List the products whose priceUSD is above the average priceUSD
